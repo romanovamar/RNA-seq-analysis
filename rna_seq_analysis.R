@@ -55,10 +55,15 @@ head(de)
 de <- data.table(ID=rownames(de), as.data.table(de))
 head(de)
 
+de <- cbind(de, fData(es))
+de <- de[ID %in% rownames(es.qnorm.top12K), ]
+de <- de[order(stat), ]
+de
+
 
 #-----------------------------------------Pathway analysis with msigdbr library 
 # fgseaMultilevel from githab devtools::install_github("ctlab/fgsea")
-stats <- de[, setNames(stat, entrez)]
+stats <- de[, setNames(stat, ID)]
 library(msigdbr)
 # GO BP pathways from MSigDB
 m_df <- msigdbr(species = "Homo sapiens")
